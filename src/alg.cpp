@@ -27,26 +27,26 @@ int countPairs2(int *arr, int len, int value) {
     }
     return count;
 }
-int binarySearch(int *arr, int start, int end, int target) {
-    while (start <= end) {
-        int mid = start + (end - start) / 2;
-        if (arr[mid] == target) {
-            return mid;
-        } else if (arr[mid] < target) {
-            start = mid + 1;
-        } else {
-            end = mid - 1;
-        }
-    }
-    return -1;
-}
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; ++i) {
-        int j = binarySearch(arr, 0, len - 1, value - arr[i]);
-        if (j != -1 && j != i) {
-            count++;
+    for (int i = 0; i < len - 1; ++i) {
+        if (i > 0 && arr[i] == arr[i - 1]) {
+            continue;
+        }
+        int need = value - arr[i];
+        int left = i + 1;
+        int right = len - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == need) {
+                ++count;
+                break;
+            } else if (arr[mid] < need) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
         }
     }
-    return count / 2;
+    return count;
 }
